@@ -10,8 +10,7 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
     "title": "",
     "description": "",
     "activity": "",
-    "date": "",
-    "strStatus": ""
+    "date": ""
   });
 
   const { addTodo, isAddingTodo } = useAddTodo(
@@ -107,17 +106,6 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
         InputLabelProps={{ shrink: true }}
         sx={{
           width: "18%",
-        }}
-      />
-      <TextField
-        id="strStatus"
-        name="strStatus"
-        label="Status"
-        variant="outlined"
-        value={newTodo.strStatus}
-        onChange={(e) => setNewTodo({ ...newTodo, strStatus: e.target.value })}
-        sx={{
-          width: "15%",
         }}
       />
       <LoadingButton

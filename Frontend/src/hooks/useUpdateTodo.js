@@ -8,13 +8,13 @@ const useUpdateTodo = (setTodos) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://fullstack-todolist-upnv.onrender.com/todos/${todo._id}`,
+        `http://localhost:3000/api/todos/${todo._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ isCompleted: !todo.isCompleted }),
+          body: JSON.stringify({ strStatus: !todo.strStatus }),
         }
       );
 
@@ -25,7 +25,7 @@ const useUpdateTodo = (setTodos) => {
       setTodos((prevTodos) =>
         prevTodos.map((item) =>
           item._id === todo._id
-            ? { ...todo, isCompleted: !todo.isCompleted }
+            ? { ...todo, strStatus: !todo.strStatus }
             : item
         )
       );

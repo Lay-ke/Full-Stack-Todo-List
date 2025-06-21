@@ -9,7 +9,7 @@ const useDeleteTodo = (fetchTodos, page, limit) => {
     try {
       setIsLoading(true);
       const response = await fetch(
-        `https://fullstack-todolist-upnv.onrender.com/todos/${id}`,
+        `http://localhost:3000/api/todos/${id}`,
         {
           method: "DELETE",
           headers: {

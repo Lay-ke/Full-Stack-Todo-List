@@ -55,7 +55,7 @@ const todoSchema = new mongoose.Schema({
   date: { type: String, },
   activity: { type: String, },
   description: { type: String, },
-  strStatus: { type: String, }
+  strStatus: { type: Boolean, default: false }
 });
 
 
@@ -134,6 +134,33 @@ app.get('/', async (req, res) => {
     console.log(e);
   }
 
+});
+
+// Add DELETE endpoint for deleting a todo by id
+app.delete('/api/todos/:id', async (req, res) => {
+  try {
+    const deleted = await Todos.findByIdAndDelete(req.params.id);
+    if (!deleted) return res.status(404).json({ message: "Todo not found" });
+    res.status(204).send();
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
+});
+
+// Add PUT endpoint for updating strStatus of a todo by id
+app.put('/api/todos/:id', async (req, res) => {
+  try {
+    const { strStatus } = req.body;
+    const updated = await Todos.findByIdAndUpdate(
+      req.params.id,
+      { strStatus },
+      { new: true }
+    );
+    if (!updated) return res.status(404).json({ message: "Todo not found" });
+    res.status(200).json({ todo: updated });
+  } catch (error) {
+    res.status(500).json({ message: "Internal server error" });
+  }
 });
 
 // Start the server
