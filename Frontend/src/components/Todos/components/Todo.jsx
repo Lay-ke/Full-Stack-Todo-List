@@ -11,9 +11,20 @@ import React from "react";
 import useUpdateTodo from "../../../hooks/useUpdateTodo.js";
 
 const Todo = ({ todo, setTodos, setTodoToDelete, handleOpenDeleteDialog }) => {
-  const { title, description, strStatus } = todo;
+  const { title, description, strStatus, date } = todo;
 
   const { updateTodo, isUpdatingTodo } = useUpdateTodo(setTodos);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
 
   const handleUpdate = async (todo) => {
     await updateTodo(todo);
@@ -42,6 +53,24 @@ const Todo = ({ todo, setTodos, setTodoToDelete, handleOpenDeleteDialog }) => {
           >
             {title}
           </Typography>
+          {date && (
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              align="center"
+              sx={{
+                mb: 1,
+                fontStyle: 'italic',
+                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                display: 'inline-block',
+                width: '100%'
+              }}
+            >
+              📅 {formatDate(date)}
+            </Typography>
+          )}
           <Typography variant="body1" my={2}>
             {description}
           </Typography>

@@ -53,7 +53,6 @@ const userSchema = new mongoose.Schema({
 const todoSchema = new mongoose.Schema({
   title: { type: String, },
   date: { type: String, },
-  activity: { type: String, },
   description: { type: String, },
   strStatus: { type: Boolean, default: false }
 });
@@ -74,13 +73,12 @@ app.get('/api/users', async (req, res) => {
 });
 // Route: Fetch all users
 app.post('/api/todos', async (req, res) => {
-  const { title, description, activity, date, strStatus } = req.body;
+  const { title, description, date, strStatus } = req.body;
 
   try {
     const todo = new Todos({
       title,
       description,
-      activity,
       date,
       strStatus
     });
