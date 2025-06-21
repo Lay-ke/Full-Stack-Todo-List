@@ -7,14 +7,15 @@ const useUpdateTodo = (setTodos) => {
   const updateTodo = async (todo) => {
     try {
       setIsLoading(true);
+      const API_BASE_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:3000';
       const response = await fetch(
-        `https://fullstack-todolist-upnv.onrender.com/todos/${todo._id}`,
+        `${API_BASE_URL}/api/todos/${todo._id}`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ isCompleted: !todo.isCompleted }),
+          body: JSON.stringify({ strStatus: !todo.strStatus }),
         }
       );
 
@@ -25,7 +26,7 @@ const useUpdateTodo = (setTodos) => {
       setTodos((prevTodos) =>
         prevTodos.map((item) =>
           item._id === todo._id
-            ? { ...todo, isCompleted: !todo.isCompleted }
+            ? { ...todo, strStatus: !todo.strStatus }
             : item
         )
       );

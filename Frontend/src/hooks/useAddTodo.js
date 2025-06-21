@@ -11,8 +11,9 @@ const useAddTodos = (fetchTodos, page, limit, setNewTodo) => {
   const addTodo = async (todo) => {
     try {
       setIsLoading(true);
+      const API_BASE_URL = process.env.REACT_APP_BACKEND_API_URL || 'http://localhost:3000';
       const response = await fetch(
-        "http://localhost:3000/api/todos",
+        `${API_BASE_URL}/api/todos`,
         {
           method: "POST",
           headers: {

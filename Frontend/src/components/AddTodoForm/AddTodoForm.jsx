@@ -9,9 +9,7 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
   let [newTodo, setNewTodo] = useState({
     "title": "",
     "description": "",
-    "activity": "",
-    "date": "",
-    "strStatus": ""
+    "date": ""
   });
 
   const { addTodo, isAddingTodo } = useAddTodo(
@@ -21,8 +19,7 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
     setNewTodo
   );
 
-  let isValidateInputs =
-    newTodo.title.length < 10 || newTodo.description.length < 15;
+  let isValidateInputs = !newTodo.title || !newTodo.description;
 
   const handleSubmit = async (e) => {
     try {
@@ -54,12 +51,6 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
         variant="outlined"
         value={newTodo.title}
         onChange={(e) => setNewTodo({ ...newTodo, title: e.target.value })}
-        error={newTodo.title.length > 0 && newTodo.title.length < 10}
-        helperText={
-          newTodo.title.length > 0 && newTodo.title.length < 10
-            ? "Title must be at least 10 characters"
-            : ""
-        }
         sx={{
           width: "30%",
         }}
@@ -73,27 +64,8 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
         onChange={(e) =>
           setNewTodo({ ...newTodo, description: e.target.value })
         }
-        error={
-          newTodo.description.length > 0 && newTodo.description.length < 15
-        }
-        helperText={
-          newTodo.description.length > 0 && newTodo.description.length < 15
-            ? "Description must be at least 15 characters"
-            : ""
-        }
         sx={{
           flexGrow: 1,
-        }}
-      />
-      <TextField
-        id="activity"
-        name="activity"
-        label="Activity"
-        variant="outlined"
-        value={newTodo.activity}
-        onChange={(e) => setNewTodo({ ...newTodo, activity: e.target.value })}
-        sx={{
-          width: "20%",
         }}
       />
       <TextField
@@ -107,17 +79,6 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
         InputLabelProps={{ shrink: true }}
         sx={{
           width: "18%",
-        }}
-      />
-      <TextField
-        id="strStatus"
-        name="strStatus"
-        label="Status"
-        variant="outlined"
-        value={newTodo.strStatus}
-        onChange={(e) => setNewTodo({ ...newTodo, strStatus: e.target.value })}
-        sx={{
-          width: "15%",
         }}
       />
       <LoadingButton

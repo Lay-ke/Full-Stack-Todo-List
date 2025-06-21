@@ -11,9 +11,20 @@ import React from "react";
 import useUpdateTodo from "../../../hooks/useUpdateTodo.js";
 
 const Todo = ({ todo, setTodos, setTodoToDelete, handleOpenDeleteDialog }) => {
-  const { title, description, isCompleted } = todo;
+  const { title, description, strStatus, date } = todo;
 
   const { updateTodo, isUpdatingTodo } = useUpdateTodo(setTodos);
+
+  const formatDate = (dateString) => {
+    if (!dateString) return '';
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      weekday: 'short',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric'
+    });
+  };
 
   const handleUpdate = async (todo) => {
     await updateTodo(todo);
@@ -42,15 +53,33 @@ const Todo = ({ todo, setTodos, setTodoToDelete, handleOpenDeleteDialog }) => {
           >
             {title}
           </Typography>
+          {date && (
+            <Typography
+              variant="body2"
+              color="text.secondary"
+              align="center"
+              sx={{
+                mb: 1,
+                fontStyle: 'italic',
+                backgroundColor: 'rgba(0, 0, 0, 0.04)',
+                padding: '4px 8px',
+                borderRadius: '4px',
+                display: 'inline-block',
+                width: '100%'
+              }}
+            >
+              📅 {formatDate(date)}
+            </Typography>
+          )}
           <Typography variant="body1" my={2}>
             {description}
           </Typography>
           <Typography
             variant="body1"
-            color={isCompleted ? "green" : "red"}
+            color={strStatus ? "green" : "red"}
             sx={{ position: "absolute", top: 5, left: 5 }}
           >
-            {isCompleted ? (
+            {strStatus ? (
               <CircleCheckBig color="rgb(103, 172, 0)" />
             ) : (
               <Circle color="rgb(184, 184, 184)" />
@@ -64,7 +93,7 @@ const Todo = ({ todo, setTodos, setTodoToDelete, handleOpenDeleteDialog }) => {
             loading={isUpdatingTodo}
             onClick={() => handleUpdate(todo)}
           >
-            {isCompleted ? "Undo" : "Mark as Done"}
+            {strStatus ? "Undo" : "Mark as Done"}
           </LoadingButton>
           <LoadingButton
             size="medium"
