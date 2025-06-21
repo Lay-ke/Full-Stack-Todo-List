@@ -3,7 +3,6 @@ import { Box, TextField } from "@mui/material";
 import React, { useState } from "react";
 import { defaultTodo } from "../../utils/general.js";
 import useAddTodo from "../../hooks/useAddTodo.js";
-import axios from "axios";
 
 const AddTodoForm = ({ fetchTodos, page, limit }) => {
   // let [newTodo, setNewTodo] = useState(defaultTodo);
@@ -28,15 +27,9 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
   const handleSubmit = async (e) => {
     try {
       e.preventDefault();
-      const resp1 = await addTodo({ ...newTodo });
-      console.log("newTodo display");
-
-      const resp = axios.post("http://localhost:3000/api/todos", newTodo);
-      console.log(resp);
-    }
-    catch (ex) {
+      await addTodo({ ...newTodo });
+    } catch (ex) {
       console.log("catch me ", ex);
-      // console.log(ex);
     }
   };
 
@@ -90,6 +83,41 @@ const AddTodoForm = ({ fetchTodos, page, limit }) => {
         }
         sx={{
           flexGrow: 1,
+        }}
+      />
+      <TextField
+        id="activity"
+        name="activity"
+        label="Activity"
+        variant="outlined"
+        value={newTodo.activity}
+        onChange={(e) => setNewTodo({ ...newTodo, activity: e.target.value })}
+        sx={{
+          width: "20%",
+        }}
+      />
+      <TextField
+        id="date"
+        name="date"
+        label="Date"
+        type="date"
+        variant="outlined"
+        value={newTodo.date}
+        onChange={(e) => setNewTodo({ ...newTodo, date: e.target.value })}
+        InputLabelProps={{ shrink: true }}
+        sx={{
+          width: "18%",
+        }}
+      />
+      <TextField
+        id="strStatus"
+        name="strStatus"
+        label="Status"
+        variant="outlined"
+        value={newTodo.strStatus}
+        onChange={(e) => setNewTodo({ ...newTodo, strStatus: e.target.value })}
+        sx={{
+          width: "15%",
         }}
       />
       <LoadingButton

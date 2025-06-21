@@ -1,6 +1,7 @@
 import express from "express";
 import cors from "cors";
 import mongoose from "mongoose";
+import "dotenv/config";
 
 // import initApp from "./src/modules/index.router.js";
 // import "dotenv/config";
@@ -19,6 +20,7 @@ import mongoose from "mongoose";
 //const mongoose = require('mongoose');
 //const cors = require('cors'); // Import CORS
 
+
 const app = express();
 const PORT = 3000;
 
@@ -29,7 +31,8 @@ app.use(cors());
 app.use(express.json());
 
 // MongoDB Connection URI
-const MONGO_URI = 'mongodb://127.0.0.1:27017';
+const MONGO_URI = process.env.MONGO_URI ; // MongoDB connection string from environment variables
+// console.log('Mongo URI', MONGO_URI)
 //const MONGO_URI = 'mongodb://mongo-shared-dev:fikTpih4U2!@20.218.241.192:27017/?directConnection=true&appName=mongosh+1.8.2&authMechanism=DEFAULT';
 
 const dbname = 'todos';
@@ -105,7 +108,7 @@ app.get('/api/gettodos', async (req, res) => {
 
     const todoList = await Todos.find();
 
-    return res.status(201).send({ todoList });
+    return res.status(200).send({ todoList });
   } catch (error) {
     // if (error.errors.title)
     //   return res.status(400).send({ message: "the Title field is required" });
